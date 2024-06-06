@@ -1,6 +1,6 @@
 # Linux - Informal guide to basic command informations
 
-> "I'm using a Linux terminal and need to retrieve some system information or perform a quick task via the command line. Can you help?"
+> "I'm using a Linux terminal and need to retrieve some system information about a command via the command line. Can you help?"
 
 ## Get information from a command
 
