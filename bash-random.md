@@ -13,9 +13,14 @@ echo $RANDOM
 
 To get a 1-digit or 2-digit number a simple trick is:
 ```bash
-echo ${RANDOM:0:1} # random number between 1 and 9
-echo ${RANDOM:0:2} # random number between 1 and 99
+echo ${RANDOM:0:1} # random number between 0 and 9 (0 is less frequent than others)
+# for i in {1..100000}; do echo "${RANDOM:0:1} "; done | grep '0'
+echo ${RANDOM:0:2} # random number between 1 and 99 (2-digit numbers are more frequent)
+# for i in {1..1000}; do echo "${RANDOM:0:2} "; done | xargs -n50
 ```
+
+
+
 
 ## Use the `date` command
 
