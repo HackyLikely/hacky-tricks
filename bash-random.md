@@ -11,6 +11,12 @@ The number 32767 is the two's complement, max positive signed number on 16-bit.
 echo $RANDOM
 ```
 
+To get a 1-digit or 2-digit number a simple trick is:
+```bash
+echo ${RANDOM:0:1} # random number between 1 and 9
+echo ${RANDOM:0:2} # random number between 1 and 99
+```
+
 ## Use the `date` command
 
 The `date` command is used to display the current date and time or to set the system date and time.
