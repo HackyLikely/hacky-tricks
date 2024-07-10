@@ -42,8 +42,29 @@ date +%N
 date +%N%S
 
 # adding digits of the number of seconds since the Unix epoch, which is January 1, 1970, at 00:00:00 UTC
+# 19-digit number 
 date +%N%s
+date +%s%N
+# 10-digit number 
+date +%s%N | cut -b10-19
 
 # capture and store the output in a variable
 N=$(date +%N%s)
+```
+
+## Use the `shuf` command
+
+The `shuf` command in Bash is used to generate random permutations of input lines or to select random lines from a file, but can be used also to generate random numbers.
+
+```bash
+# Generate 5 random numbers from 10-20 (extreme included)
+shuf -i 10-20 -n 5
+
+# Shuffle lines in a file:
+# shuf filename.txt
+head bash-random.md | shuf
+
+# Select 2 random lines from a file
+# shuf -n 2 filename.txt
+head bash-random.md | shuf -n 2
 ```
