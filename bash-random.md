@@ -68,3 +68,31 @@ head bash-random.md | shuf
 # shuf -n 2 filename.txt
 head bash-random.md | shuf -n 2
 ```
+
+## Use the `od` command reading from `/dev/urandom`
+
+The `od` (Octal Dump) command in Linux is used for dumping file contents in various formats. For random number generation we can dump from the special linux device `/dev/urandom`.
+
+- The `-An` option specify to not print the memory address of read file data.
+- The `-t d` option specify we want the decimal output format.
+- The `-N [number]` option specify the number of bytes we want to read.
+
+```bash
+# Reading unsigned decimal N-byte units, from /dev/urandom
+
+# up to 4-bytes
+od -An -t d  -N 1 /dev/urandom
+od -An -t d  -N 2 /dev/urandom
+od -An -t d  -N 3 /dev/urandom
+od -An -t d  -N 4 /dev/urandom # signed
+
+# up to 8-bytes: long
+od -An -t dL -N 4 /dev/urandom # unsigned
+od -An -t dL -N 5 /dev/urandom 
+od -An -t dL -N 6 /dev/urandom 
+od -An -t dL -N 7 /dev/urandom 
+od -An -t dL -N 8 /dev/urandom # signed Long
+
+# unsigned long joining
+od -An -t uL -N 32 /dev/urandom | tr -d ' \n' && echo
+```
