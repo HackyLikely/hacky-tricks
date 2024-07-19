@@ -96,3 +96,18 @@ od -An -t dL -N 8 /dev/urandom # signed Long
 # unsigned long joining
 od -An -t uL -N 32 /dev/urandom | tr -d ' \n' && echo
 ```
+
+
+## Use the `dd` command reading from `/dev/urandom`
+
+The `dd` command in Linux is a powerful utility used for low-level copying and conversion of raw data. The `status` argument stands for the level of information to print, `if` stands for input file, `of` for output file, `count` sets the number of input blocks, and `bs` sets the block size in bytes.
+
+```bash
+# using dd for unsigned Integer (4-bytes)
+dd status=none if=/dev/urandom count=4 bs=1 | od -An -t uI
+# two unsigned Integers (4-bytes) (4-bytes)
+dd status=none if=/dev/urandom count=4 bs=2 | od -An -t uI
+dd status=none if=/dev/urandom count=8 bs=1 | od -An -t uI
+# using dd for unsigned Long (8-bytes)
+dd status=none if=/dev/urandom count=8 bs=1 | od -An -t uL
+```
