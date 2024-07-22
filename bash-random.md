@@ -111,3 +111,53 @@ dd status=none if=/dev/urandom count=8 bs=1 | od -An -t uI
 # using dd for unsigned Long (8-bytes)
 dd status=none if=/dev/urandom count=8 bs=1 | od -An -t uL
 ```
+
+
+## Reading from `/dev/urandom` to get hexadecimal randomness
+
+```bash
+# 100-hex including \n by xxd
+head -c100 /dev/urandom | xxd -ps
+# ... removing \n (from xxd)
+head -c100 /dev/urandom | xxd -ps | tr -d '\n'
+
+# using checksums algorithm
+head /dev/urandom | md5sum      | cut -d' ' -f1
+head /dev/urandom | sha1sum     | cut -d' ' -f1
+head /dev/urandom | sha224sum   | cut -d' ' -f1
+head /dev/urandom | sha256sum   | cut -d' ' -f1
+head /dev/urandom | sha384sum   | cut -d' ' -f1
+head /dev/urandom | sha512sum   | cut -d' ' -f1
+
+# To get the decimal value of one of the prev examples
+# concatenate strings using xargs
+head -c10 /dev/urandom | xxd -ps | tr -d '\n' | tr '[:lower:]' '[:upper:]' | xargs echo 'ibase=16;' | bc
+# concatenate strings using sed
+head -c10 /dev/urandom | xxd -ps | tr -d '\n' | tr '[:lower:]' '[:upper:]' | sed -E "s/(.*)/ibase=16;\1\n/" | bc
+```
+
+
+## Reading from `/dev/urandom` to get ASCII randomness
+
+```bash
+# using base64
+head /dev/urandom | base64
+# remove last 2 char
+head /dev/urandom | base64 | head -n -2
+# fixed size
+head -c100 /dev/urandom | base64
+# character class filtering
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:digit:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:xdigit:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:alpha:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:alnum:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:lower:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:upper:]]//g'
+head -c100 /dev/urandom | base64 | sed -E 's/[^[:punct:]]//g'
+
+# advanced random printable string [\x20-\x7f]
+head -c100 /dev/urandom  | od -An -t x1 | sed -e 's/[89a-f][0-9a-f]//g' -e 's/[01][0-9a-f]//g' | tr -d ' \n' | xxd -ps -r && echo
+
+# advanced random graphical characters: ‘[:alnum:]’ and ‘[:punct:]’. 
+tr -d -c "[:graph:]" < /dev/urandom | head -c 8
+```
